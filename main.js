@@ -1,12 +1,15 @@
-// main.js
-import { informacion } from "./contenido.js";
+import { informacion, agregarLista , eliminarElemento } from "./contenido.js";
 
-export function generarLista() {
-    const lista = document.getElementById("lista"); // Obtén la referencia a la lista en el HTML
-    const articulos = informacion(); // Llama a la función para obtener los artículos
+let articulos = informacion(); // Obtener los artículos actuales
 
-    articulos.forEach(articulo => {
-        // Crea un elemento de lista para cada artículo con las clases de Bootstrap
+// Función para generar la lista visualmente
+function generarLista() {
+    const lista = document.getElementById("lista");
+    const articulos = informacion();
+
+    lista.innerHTML = ''; // Limpiar la lista antes de regenerarla
+
+    articulos.forEach((articulo, index) => {
         const listItem = `
             <li class="list-group-item d-flex justify-content-between align-items-start">
                 <div class="ms-2 me-auto">
@@ -14,12 +17,54 @@ export function generarLista() {
                     Color: ${articulo.color}, Precio: $${articulo.pvp}
                 </div>
                 <span class="badge text-bg-primary rounded-pill">${articulo.id}</span>
+                <button class="btn btn-danger btn-sm ms-3" onclick="eliminar(${index})">Eliminar</button> <!-- Botón de eliminar -->
             </li>
         `;
 
-        lista.innerHTML += listItem; // Agrega el elemento a la lista
+        lista.innerHTML += listItem;
     });
 }
 
-// Llama a la función generarLista al cargar la página
-window.onload = generarLista;
+// Función para añadir un nuevo artículo
+function enlistar() {
+
+    agregarLista();
+
+    const confirmarBtn = document.getElementById('confirmarAgregar');
+    confirmarBtn.addEventListener('click', function () {
+        const nuevoArticulo = document.getElementById('nombreArticulo').value;
+        
+        // Verificar si el campo no está vacío
+        if (nuevoArticulo.trim() !== '') {
+            // Descomponer el input en partes (id, name, color, pvp)
+            const [id, name, color, pvp] = nuevoArticulo.split(',');
+
+            // Agregar el nuevo artículo al array de artículos
+            articulos.push({
+                id: parseInt(id),
+                name: name.trim(),
+                color: color.trim(),
+                pvp: parseFloat(pvp)
+            });
+
+            // Actualizar la lista visualmente
+            generarLista();
+        }
+
+        // Ocultar el contenedor de inputs nuevamente
+        document.getElementById('inputContainer').style.display = 'none';
+    });
+}
+
+function eliminar(index) {
+    eliminarElemento(index); // Llama a la función para eliminar el artículo del array
+    generarLista(); // Regenera la lista después de eliminar
+}
+
+
+window.onload = generarLista; // Generar la lista al cargar la página
+
+// Configurar el botón de agregar
+document.getElementById('agregar').addEventListener('click', enlistar);
+
+window.eliminar = eliminar; 

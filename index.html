@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,14 +11,14 @@
 
 <body>
     <div class="container mt-5 card col-5">
-        <h2>Lista de Artículos</h2>
         <div class="row">
             <div class="col">
-                <button class="btn bg-primary">Agregar</button>
-                <button class="btn bg-primary">Eliminar</button>
+                <h2 class="mt-2" >Lista de Artículos</h2>
+                <button class="btn btn-warning" id="agregar">Agregar</button>
             </div>
         </div>
-        <ol class="list-group list-group-numbered my-3" id="lista"></ol>
+        <div id="inputContainer" style="display: none;"></div> <!-- Inputs para agregar nuevos artículos -->
+        <ol class="list-group list-group-numbered my-3" id="lista"></ol> <!-- Lista de artículos -->
     </div>
 
     <script type="module" src="main.js"></script>
@@ -27,5 +26,4 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
 </body>
-
 </html>
